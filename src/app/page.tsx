@@ -1,5 +1,5 @@
 'use client'
-import { CurrencyCard } from '@/components/CurrencyCard'
+import { CurrencyCard } from '@/components/CurrencyCard/CurrencyCard'
 import { useState } from 'react'
 
 export default function Home() {
