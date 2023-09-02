@@ -24,12 +24,12 @@ export const CurrencyCard = ({
   const inputRef = useMaskito({ options })
 
   return (
-    <div className="rounded shadow-lg p-3 bg-slate-50">
-      <div className="flex items-center border-b border-teal-500">
+    <div className="rounded shadow-lg p-3 bg-gray-900">
+      <div className="flex items-center border-b border-sky-700 text-slate-300">
         <p>{currency}</p>
         <input
           ref={inputRef}
-          className="appearance-none bg-transparent border-none w-full text-gray-700 py-1 px-2 leading-tight focus:outline-none"
+          className="appearance-none bg-transparent border-none w-full text-inherit py-1 px-2 leading-tight focus:outline-none"
           placeholder="0.00"
           value={value}
           onInput={(e) => onChange(e.currentTarget.value)}
