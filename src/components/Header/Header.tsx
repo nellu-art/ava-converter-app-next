@@ -18,7 +18,7 @@ export const Header = ({ isMenuOpen, onMenuOpenClick }: HeaderProps) => {
           <SquarePlusIcon className="h-8 fill-indigo-800" />
         )}
       </span>
-      <h1 className="font-light text-2xl text-indigo-800">AVA Converter</h1>
+      <h1 className="font-medium text-2xl text-indigo-800">AVA Converter</h1>
       <span className="flex-1" />
     </div>
   )

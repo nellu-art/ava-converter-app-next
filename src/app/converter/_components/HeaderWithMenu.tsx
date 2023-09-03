@@ -32,7 +32,12 @@ export const HeaderWithMenu = ({
     <div className="absolute top-0 left-0 w-full h-full flex flex-col">
       <Header
         isMenuOpen={isMenuOpen}
-        onMenuOpenClick={() => setIsMenuOpen((prev) => !prev)}
+        onMenuOpenClick={() => {
+          setIsMenuOpen((prev) => !prev)
+          if (!isMenuOpen) {
+            setSearchValue('')
+          }
+        }}
       />
       <div
         className={`z-10 bg-[rgb(var(--background-rgb))] flex-1 p-6 overflow-hidden ${
