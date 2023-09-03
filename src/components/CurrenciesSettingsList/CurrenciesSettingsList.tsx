@@ -34,7 +34,7 @@ const CurrencyCheckbox = ({
 }
 
 export type CurrenciesSettingsListProps = {
-  currencies: CurrencyCheckboxProps[]
+  currencies: (CurrencyCheckboxProps & { isDisplayed?: boolean })[]
   onChange: (selectedCurrencies: string[]) => void
 }
 
@@ -56,17 +56,23 @@ export const CurrenciesSettingsList = ({
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col items-center">
-        {currencies.map(({ country, currency, ...rest }, index) => (
-          <div
-            key={`${country}-${currency}`}
-            className={`w-full border-b border-indigo-900 py-5 ${
-              index === 0 ? 'border-t' : ''
-            }`}
-            onClick={() => submitButtonRef.current?.click()}
-          >
-            <CurrencyCheckbox currency={currency} country={country} {...rest} />
-          </div>
-        ))}
+        {currencies.map(
+          ({ country, currency, isDisplayed, ...rest }, index) => (
+            <div
+              key={`${country}-${currency}`}
+              className={`w-full border-b border-indigo-900 py-5 ${
+                index === 0 ? 'border-t' : ''
+              } ${isDisplayed ? 'block' : 'hidden'}`}
+              onClick={() => submitButtonRef.current?.click()}
+            >
+              <CurrencyCheckbox
+                currency={currency}
+                country={country}
+                {...rest}
+              />
+            </div>
+          )
+        )}
       </div>
       <button className="hidden" type="submit" ref={submitButtonRef} />
     </form>

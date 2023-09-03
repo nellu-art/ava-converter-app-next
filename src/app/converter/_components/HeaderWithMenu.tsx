@@ -20,16 +20,13 @@ export const HeaderWithMenu = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
 
-  const filteredCurrencies = currencies
-    .filter((record) =>
-      `${record.country} ${record.currency}`
-        .toLowerCase()
-        .includes(searchValue.toLowerCase())
-    )
-    .map((record) => ({
-      ...record,
-      isChecked: selectedCurrencies.includes(record.currency),
-    }))
+  const filteredCurrencies = currencies.map((record) => ({
+    ...record,
+    isChecked: selectedCurrencies.includes(record.currency),
+    isDisplayed: `${record.country} ${record.currency}`
+      .toLowerCase()
+      .includes(searchValue.toLowerCase()),
+  }))
 
   return (
     <div className="absolute top-0 left-0 w-full h-full flex flex-col">
