@@ -50,7 +50,6 @@ export const CurrenciesSettingsList = ({
       const formData = new FormData(event.target)
       const data = Object.fromEntries(formData.entries())
       onChange(Object.keys(data))
-      event.target.reset()
     }
   }
 
