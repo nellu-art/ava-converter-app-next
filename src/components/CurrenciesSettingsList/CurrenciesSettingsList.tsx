@@ -33,7 +33,7 @@ const CurrencyCheckbox = ({
   )
 }
 
-type CurrenciesSettingsListProps = {
+export type CurrenciesSettingsListProps = {
   currencies: CurrencyCheckboxProps[]
   onChange: (selectedCurrencies: string[]) => void
 }
