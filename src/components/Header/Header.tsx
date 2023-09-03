@@ -1,6 +1,6 @@
 'use client'
 
-import { BarsIcon } from '@/icons/BarsIcon'
+import { SquarePlusIcon } from '@/icons/SquarePlusIcon'
 import { XmarkIcon } from '@/icons/XmarkIcon'
 
 type HeaderProps = {
@@ -10,15 +10,15 @@ type HeaderProps = {
 
 export const Header = ({ isMenuOpen, onMenuOpenClick }: HeaderProps) => {
   return (
-    <div className="w-full px-4 flex border-b border-zinc-900 h-12 items-center">
+    <div className="w-full px-4 flex border-b border-indigo-800 h-[60px] items-center">
       <span className="flex-1 flex items-center" onClick={onMenuOpenClick}>
         {isMenuOpen ? (
-          <XmarkIcon className="h-5 fill-slate-100" />
+          <XmarkIcon className="h-8 fill-indigo-800" />
         ) : (
-          <BarsIcon className="h-5 fill-slate-100" />
+          <SquarePlusIcon className="h-8 fill-indigo-800" />
         )}
       </span>
-      <h1 className="font-light text-lg text-gray-200">AVA Converter</h1>
+      <h1 className="font-light text-2xl text-indigo-800">AVA Converter</h1>
       <span className="flex-1" />
     </div>
   )

@@ -15,17 +15,17 @@ const CurrencyCheckbox = ({
     <div className="relative flex w-full">
       <label
         htmlFor={currency}
-        className="text-sm leading-6 font-medium text-gray-200 select-none flex-1"
+        className="text-xl leading-10 font-medium text-gray-200 select-none flex-1"
       >
         {country} - {currency}
       </label>
 
-      <div className="flex h-6 items-center">
+      <div className="flex h-10 items-center">
         <input
           id={currency}
           name={currency}
           type="checkbox"
-          className="appearance-none h-4 w-4 rounded bg-gray-300 focus:ring-indigo-600 checked:bg-indigo-600"
+          className="appearance-none h-6 w-6 rounded bg-gray-300 focus:ring-indigo-600 checked:bg-indigo-600"
           defaultChecked={isChecked}
         />
       </div>
@@ -59,7 +59,7 @@ export const CurrenciesSettingsList = ({
         {currencies.map(({ country, currency, ...rest }, index) => (
           <div
             key={`${country}-${currency}`}
-            className={`w-full border-b border-indigo-900 py-4 ${
+            className={`w-full border-b border-indigo-900 py-5 ${
               index === 0 ? 'border-t' : ''
             }`}
             onClick={() => submitButtonRef.current?.click()}

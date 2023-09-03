@@ -14,7 +14,7 @@ export const Search = ({ placeholder, value, onChange }: SearchProps) => {
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="block w-full rounded-md border-0 py-1.5 px-1 text-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none bg-slate-800"
+        className="block w-full text-xl rounded-md border-0 py-1.5 px-1 text-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none bg-slate-800"
       />
     </div>
   )

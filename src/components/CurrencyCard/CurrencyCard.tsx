@@ -86,8 +86,8 @@ export const CurrencyCard = ({
       <span />
       <span />
       <span />
-      <div className="p-3">
-        <div className="flex items-center border-b border-zinc-800 text-slate-300">
+      <div className="p-2">
+        <div className="flex items-center border-b border-zinc-800 text-slate-300 text-2xl">
           <p>{currency}</p>
           <input
             ref={inputRef}

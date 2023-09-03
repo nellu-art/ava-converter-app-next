@@ -34,8 +34,8 @@ export default async function MainPage({
     typeof data === 'object' && data && 'data' in data ? data.data : []
 
   return (
-    <main className="flex h-screen flex-col items-center lg:p-24 p-12 relative">
-      <div className="max-w-5xl w-full h-full font-mono text-sm">
+    <main className="flex h-screen flex-col items-center lg:p-24 p-4 pt-[60px] relative">
+      <div className="max-w-5xl w-full h-full font-mono">
         <Content supportedCurrencies={supportedCurrencies} />
       </div>
     </main>

@@ -70,23 +70,24 @@ const InternalCardsList = ({
   })
 
   return (
-    <div className="h-full overflow-y-auto pr-1">
+    <div className="h-full overflow-y-auto pr-1 mt-4 pb-2">
       {currenciesRates.map((currency) => {
         return (
-          <CurrencyCard
-            key={currency.name}
-            currency={currency.name}
-            value={state.currentValues[currency.name] ?? ''}
-            onChange={(value) =>
-              dispatch({
-                type: 'UPDATE_CURRENCY_VALUE',
-                payload: {
-                  currency: currency.name,
-                  value,
-                },
-              })
-            }
-          />
+          <div key={currency.name} className="mb-4">
+            <CurrencyCard
+              currency={currency.name}
+              value={state.currentValues[currency.name] ?? ''}
+              onChange={(value) =>
+                dispatch({
+                  type: 'UPDATE_CURRENCY_VALUE',
+                  payload: {
+                    currency: currency.name,
+                    value,
+                  },
+                })
+              }
+            />
+          </div>
         )
       })}
     </div>

@@ -38,7 +38,7 @@ export const HeaderWithMenu = ({
         onMenuOpenClick={() => setIsMenuOpen((prev) => !prev)}
       />
       <div
-        className={`z-10 bg-[rgb(var(--background-rgb))] flex-1 p-6 px-12 overflow-hidden ${
+        className={`z-10 bg-[rgb(var(--background-rgb))] flex-1 p-6 overflow-hidden ${
           isMenuOpen ? 'block' : 'hidden'
         } flex flex-col`}
       >
