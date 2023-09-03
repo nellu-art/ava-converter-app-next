@@ -12,7 +12,7 @@ const CurrencyCheckbox = ({
   isChecked,
 }: CurrencyCheckboxProps) => {
   return (
-    <div className="relative flex gap-x-3 w-full border-b border-indigo-900 pb-1">
+    <div className="relative flex w-full">
       <label
         htmlFor={currency}
         className="text-sm leading-6 font-medium text-gray-200 select-none flex-1"
@@ -55,11 +55,13 @@ export const CurrenciesSettingsList = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-col items-center gap-6">
-        {currencies.map(({ country, currency, ...rest }) => (
+      <div className="flex flex-col items-center">
+        {currencies.map(({ country, currency, ...rest }, index) => (
           <div
             key={`${country}-${currency}`}
-            className="w-[70%]"
+            className={`w-full border-b border-indigo-900 py-4 ${
+              index === 0 ? 'border-t' : ''
+            }`}
             onClick={() => submitButtonRef.current?.click()}
           >
             <CurrencyCheckbox currency={currency} country={country} {...rest} />

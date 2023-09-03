@@ -2,6 +2,7 @@
 import { CurrenciesSettingsList } from '@/components/CurrenciesSettingsList/CurrenciesSettingsList'
 import { CurrencyCard } from '@/components/CurrencyCard/CurrencyCard'
 import { Header } from '@/components/Header/Header'
+import { Search } from '@/components/Search/Search'
 import { useState } from 'react'
 
 const dummyCurrencies = [
@@ -14,6 +15,7 @@ const dummyCurrencies = [
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState('')
   const [value, setValue] = useState('')
   const [selectedCurrencies, setSelectedCurrencies] = useState<string[]>([])
 
@@ -27,15 +29,29 @@ export default function Home() {
           onMenuOpenClick={() => setIsMenuOpen((prev) => !prev)}
         />
         <div
-          className={`z-10 bg-[rgb(var(--background-rgb))] flex-1 p-6 border-t border-zinc-900  ${
+          className={`z-10 bg-[rgb(var(--background-rgb))] flex-1 p-6 px-12 border-t border-zinc-900  ${
             isMenuOpen ? 'block' : 'hidden'
           }`}
         >
+          <div className="mb-6">
+            <Search
+              value={searchValue}
+              onChange={setSearchValue}
+              placeholder="Enter currency or country"
+            />
+          </div>
+
           <CurrenciesSettingsList
-            currencies={dummyCurrencies.map((record) => ({
-              ...record,
-              isChecked: selectedCurrencies.includes(record.currency),
-            }))}
+            currencies={dummyCurrencies
+              .filter((record) =>
+                `${record.country} ${record.currency}`
+                  .toLowerCase()
+                  .includes(searchValue.toLowerCase())
+              )
+              .map((record) => ({
+                ...record,
+                isChecked: selectedCurrencies.includes(record.currency),
+              }))}
             onChange={setSelectedCurrencies}
           />
         </div>
