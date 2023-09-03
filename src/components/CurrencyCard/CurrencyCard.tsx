@@ -43,7 +43,10 @@ export const CurrencyCard = ({
             value={value}
             onInput={(e) => onChange(e.currentTarget.value)}
             onFocus={() => animationBoxRef.current?.classList.add('active')}
-            onBlur={() => animationBoxRef.current?.classList.remove('active')}
+            onBlur={(e) => {
+              onChange(e.currentTarget.value)
+              animationBoxRef.current?.classList.remove('active')
+            }}
           />
         </div>
       </div>
