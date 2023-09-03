@@ -102,7 +102,7 @@ export const CardsList = ({ token, selectedCurrencies }: CardsListProps) => {
   )
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div className="text-center">Loading...</div>
   }
 
   return <InternalCardsList currenciesRates={data.currencies} />
