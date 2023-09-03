@@ -101,9 +101,9 @@ export const CardsList = ({ token, selectedCurrencies }: CardsListProps) => {
     fetcher
   )
 
-  if (isLoading) {
+  if (isLoading || !data) {
     return <div className="text-center">Loading...</div>
   }
 
-  return <InternalCardsList currenciesRates={data.currencies} />
+  return <InternalCardsList currenciesRates={data.currencies ?? []} />
 }
