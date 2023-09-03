@@ -14,7 +14,7 @@ export const Content = ({ supportedCurrencies }: ContentProps) => {
 
   const [selectedCurrencies, setSelectedCurrencies] = useLocalStorage<string[]>(
     'selectedCurrencies',
-    []
+    ['USD', 'EUR']
   )
 
   if (!token) {
