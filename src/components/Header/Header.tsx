@@ -10,7 +10,7 @@ type HeaderProps = {
 
 export const Header = ({ isMenuOpen, onMenuOpenClick }: HeaderProps) => {
   return (
-    <div className="w-full p-2 px-4 flex">
+    <div className="w-full px-4 flex border-b border-zinc-900 h-12 items-center">
       <span className="flex-1 flex items-center" onClick={onMenuOpenClick}>
         {isMenuOpen ? (
           <XmarkIcon className="h-5 fill-slate-100" />
