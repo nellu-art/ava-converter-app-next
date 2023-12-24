@@ -19,8 +19,11 @@
     "autoprefixer": "10.4.15",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "mongoose": "^8.0.3",
     "next": "13.4.19",
+    "node-schedule": "^2.1.1",
     "postcss": "8.4.29",
+    "puppeteer-core": "^21.6.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "swr": "^2.2.2",
@@ -28,6 +31,7 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
+    "@types/node-schedule": "^2.1.5",
     "eslint-config-prettier": "^9.0.0",
     "prettier": "3.0.3"
   }

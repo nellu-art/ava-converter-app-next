@@ -1,5 +1,4 @@
 'use client'
-import { useSearchParams } from 'next/navigation'
 import { HeaderWithMenu } from '@/app/converter/_components/HeaderWithMenu'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { CardsList } from '@/app/converter/_components/CardsList'
@@ -9,17 +8,10 @@ type ContentProps = {
 }
 
 export const Content = ({ supportedCurrencies }: ContentProps) => {
-  const searchParams = useSearchParams()
-  const token = searchParams.get('token')
-
   const [selectedCurrencies, setSelectedCurrencies] = useLocalStorage<string[]>(
     'selectedCurrencies',
     ['USD', 'EUR']
   )
-
-  if (!token) {
-    throw new Error('Token is not provided')
-  }
 
   return (
     <>
@@ -29,7 +21,7 @@ export const Content = ({ supportedCurrencies }: ContentProps) => {
         onChangeSelectedCurrencies={setSelectedCurrencies}
       />
 
-      <CardsList token={token} selectedCurrencies={selectedCurrencies} />
+      <CardsList selectedCurrencies={selectedCurrencies} />
     </>
   )
 }

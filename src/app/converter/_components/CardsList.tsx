@@ -4,7 +4,6 @@ import { useReducer } from 'react'
 import useSWR from 'swr'
 
 type CardsListProps = {
-  token: string
   selectedCurrencies: string[]
 }
 
@@ -96,9 +95,9 @@ const InternalCardsList = ({
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
-export const CardsList = ({ token, selectedCurrencies }: CardsListProps) => {
+export const CardsList = ({ selectedCurrencies }: CardsListProps) => {
   const { data: { data } = {}, isLoading } = useSWR(
-    `/api/rates?token=${token}&currencies=${selectedCurrencies.join(',')}`,
+    `/api/rates?currencies=${selectedCurrencies.join(',')}`,
     fetcher
   )
 
