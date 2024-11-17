@@ -1,35 +1,44 @@
 'use client'
-import { useSearchParams } from 'next/navigation'
+import useSWR from 'swr'
 import { HeaderWithMenu } from '@/app/converter/_components/HeaderWithMenu'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { CardsList } from '@/app/converter/_components/CardsList'
+import { useState } from 'react'
 
-type ContentProps = {
-  supportedCurrencies: { currency: string; country: string }[]
+const importCurrencies = async () => {
+  const { currenciesWithCountry } = await import('@/constants/currencies')
+  return currenciesWithCountry
 }
 
-export const Content = ({ supportedCurrencies }: ContentProps) => {
-  const searchParams = useSearchParams()
-  const token = searchParams.get('token')
-
+export const Content = () => {
   const [selectedCurrencies, setSelectedCurrencies] = useLocalStorage<string[]>(
     'selectedCurrencies',
     ['USD', 'EUR']
   )
+  const [paddingTop, setPaddingTop] = useState(0)
 
-  if (!token) {
-    throw new Error('Token is not provided')
-  }
+  const currenciesWithCountry = useSWR(
+    'currenciesWithCountry',
+    importCurrencies
+  ).data
+
+  if (!currenciesWithCountry) return null
 
   return (
-    <>
+    <div
+      className="max-w-3xl w-full h-full relative"
+      style={{
+        paddingTop,
+      }}
+    >
       <HeaderWithMenu
-        currencies={supportedCurrencies}
+        currencies={currenciesWithCountry}
         selectedCurrencies={selectedCurrencies}
         onChangeSelectedCurrencies={setSelectedCurrencies}
+        onMount={setPaddingTop}
       />
 
-      <CardsList token={token} selectedCurrencies={selectedCurrencies} />
-    </>
+      <CardsList selectedCurrencies={selectedCurrencies} />
+    </div>
   )
 }

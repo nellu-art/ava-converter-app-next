@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-rgb: 10, 11, 11;
+  --main-text-color: #e2e8f0; /* This is Tailwind's slate-200 color */
 }
 
 * {
@@ -12,6 +11,9 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background-color: rgb(var(--background-rgb));
+  @apply text-slate-200;
+}
+
+body > * {
+  font-family: inherit;
 }

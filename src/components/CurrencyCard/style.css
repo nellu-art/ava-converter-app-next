@@ -1,5 +1,12 @@
+.input-expandable {
+  width: 50px;
+  min-width: 0;
+  box-sizing: content-box;
+  max-width: 100%;
+}
+
 .animation-box {
-  --line-color: #0369a1;
+  --line-color: var(--main-text-color);
   position: relative;
   padding: 2px;
   overflow: hidden;

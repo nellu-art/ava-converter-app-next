@@ -12,20 +12,28 @@ const CurrencyCheckbox = ({
   isChecked,
 }: CurrencyCheckboxProps) => {
   return (
-    <div className="relative flex w-full">
+    <div
+      className={`relative flex w-full h-full items-center p-18 rounded ${
+        isChecked ? 'bg-opacity10' : ''
+      }`}
+    >
       <label
-        htmlFor={currency}
-        className="text-xl leading-10 font-medium text-gray-200 select-none flex-1"
+        htmlFor={`${country}-${currency}`}
+        className="text-lg select-none flex-1"
       >
-        {country} - {currency}
+        <span className="font-rammetto mr-4 min-w-[4rem] inline-block">
+          {currency}
+        </span>
+
+        <span className="font-miriam font-medium">{country}</span>
       </label>
 
-      <div className="flex h-10 items-center">
+      <div className="flex items-center">
         <input
-          id={currency}
-          name={currency}
+          id={`${country}-${currency}`}
+          name={`${country}-${currency}`}
           type="checkbox"
-          className="appearance-none h-6 w-6 rounded bg-gray-300 focus:ring-indigo-600 checked:bg-indigo-600"
+          className="appearance-none h-6 w-6 rounded border-4 border-lightGrey checked:bg-lightGrey"
           defaultChecked={isChecked}
         />
       </div>
@@ -44,35 +52,41 @@ export const CurrenciesSettingsList = ({
 }: CurrenciesSettingsListProps) => {
   const submitButtonRef = useRef<HTMLButtonElement>(null)
 
+  const totalEurCurrencyCountries = currencies.filter(
+    ({ currency }) => currency === 'EUR'
+  ).length
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (event.target instanceof HTMLFormElement) {
       const formData = new FormData(event.target)
       const data = Object.fromEntries(formData.entries())
-      onChange(Object.keys(data))
+      const fieldNames = Object.keys(data)
+      const eurCurrencyFields = fieldNames.filter((field) =>
+        field.includes('EUR')
+      )
+      const selectedCurrencies = new Set(
+        fieldNames.map((field) => field.split('-')[1])
+      )
+      if (eurCurrencyFields.length + 1 === totalEurCurrencyCountries) {
+        selectedCurrencies.delete('EUR')
+      }
+      onChange(Array.from(selectedCurrencies))
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-col items-center">
-        {currencies.map(
-          ({ country, currency, isDisplayed, ...rest }, index) => (
-            <div
-              key={`${country}-${currency}`}
-              className={`w-full border-b border-indigo-900 py-5 ${
-                index === 0 ? 'border-t' : ''
-              } ${isDisplayed ? 'block' : 'hidden'}`}
-              onClick={() => submitButtonRef.current?.click()}
-            >
-              <CurrencyCheckbox
-                currency={currency}
-                country={country}
-                {...rest}
-              />
-            </div>
-          )
-        )}
+      <div className="flex flex-col items-center gap-3">
+        {currencies.map(({ country, currency, isDisplayed, ...rest }) => (
+          <div
+            key={`${country}-${currency}-${rest.isChecked}`}
+            className={`w-full ${isDisplayed ? 'block' : 'hidden'}`}
+            onClick={() => submitButtonRef.current?.click()}
+          >
+            <CurrencyCheckbox currency={currency} country={country} {...rest} />
+          </div>
+        ))}
       </div>
       <button className="hidden" type="submit" ref={submitButtonRef} />
     </form>

@@ -1,0 +1,3 @@
+.toggle-burger {
+  @apply [&>div]:h-0 [&>div]:rotate-45 [&>div]:before:translate-y-0 [&>div]:after:translate-y-0 [&>div]:after:-rotate-90;
+}

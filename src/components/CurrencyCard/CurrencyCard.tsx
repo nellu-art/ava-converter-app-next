@@ -1,9 +1,10 @@
 'use client'
 import { maskitoNumberOptionsGenerator } from '@maskito/kit'
 import { useMaskito } from '@maskito/react'
-import { useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 
 import './style.css'
+import { formatCurrency } from './helpers/formatCurrency'
 
 type CurrencyCardProps = {
   currency: string
@@ -19,90 +20,103 @@ const options = maskitoNumberOptionsGenerator({
   min: 0,
 })
 
-function formatNumber(num: string) {
-  // format number 1000000 to 1,234,567
-  return num.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-}
-
-function formatCurrency(value: string, blur?: boolean) {
-  // don't validate empty input
-  if (value === '') {
-    return ''
-  }
-
-  // check for decimal
-  if (value.indexOf('.') >= 0) {
-    // get position of first decimal
-    // this prevents multiple decimals from
-    // being entered
-    const decimal_pos = value.indexOf('.')
-
-    // split number by decimal point
-    let left_side = value.substring(0, decimal_pos)
-    let right_side = value.substring(decimal_pos)
-
-    // add commas to left side of number
-    left_side = formatNumber(left_side)
-
-    // validate right side
-    right_side = formatNumber(right_side)
-
-    // On blur make sure 2 numbers after decimal
-    if (blur) {
-      right_side += '00'
-    }
-
-    // Limit decimal to only 2 digits
-    right_side = right_side.substring(0, 2)
-
-    // join number by .
-    return left_side + '.' + right_side
-  } else {
-    // no decimal entered
-    // add commas to number
-    // remove all non-digits
-    let result = formatNumber(value)
-
-    // final formatting
-    if (blur) {
-      result += '.00'
-    }
-
-    return result
-  }
-}
-
 export const CurrencyCard = ({
   currency,
   value,
   onChange,
 }: CurrencyCardProps) => {
-  const inputRef = useMaskito({ options })
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const spanRef = useRef<HTMLSpanElement>(null)
+  const maskInputRef = useMaskito({ options })
   const animationBoxRef = useRef<HTMLDivElement>(null)
 
+  const adjustInputWidth = () => {
+    if (inputRef.current && spanRef.current) {
+      spanRef.current.textContent =
+        inputRef.current.value || inputRef.current.placeholder
+      inputRef.current.style.width = `${spanRef.current.offsetWidth}px`
+    }
+  }
+
+  useLayoutEffect(() => {
+    adjustInputWidth()
+  }, [value])
+
   return (
-    <div className="animation-box" ref={animationBoxRef}>
+    <div
+      className="animation-box bg-opacity3"
+      ref={animationBoxRef}
+      onClick={() => inputRef.current?.focus()}
+    >
       <span />
       <span />
       <span />
       <span />
-      <div className="p-2">
-        <div className="flex items-center border-b border-zinc-800 text-slate-300 text-2xl">
-          <p>{currency}</p>
-          <input
-            ref={inputRef}
-            className="appearance-none bg-transparent border-none w-full text-inherit py-1 px-2 leading-tight focus:outline-none"
-            placeholder="0.00"
-            value={formatCurrency(value)}
-            onInput={(e) => onChange(e.currentTarget.value)}
-            onFocus={() => animationBoxRef.current?.classList.add('active')}
-            onBlur={(e) => {
-              onChange(e.currentTarget.value)
-              animationBoxRef.current?.classList.remove('active')
-            }}
-          />
+      <div className="p-5">
+        <div className="flex items-center justify-between text-2xl">
+          <p className="pr-5 font-rammetto">{currency}</p>
+          <div className="flex-1 overflow-hidden">
+            <div className="relative flex justify-end font-miriam text-3xl">
+              <input
+                ref={(input) => {
+                  inputRef.current = input
+                  maskInputRef(input)
+                }}
+                className="appearance-none bg-transparent border-none text-inherit py-1 px-2 leading-tight focus:outline-none input-expandable"
+                placeholder="0.00"
+                value={formatCurrency(value)}
+                onInput={(e) => {
+                  const number = getNumberFromInputValue(e.currentTarget.value)
+                  if (number >= Number.MAX_SAFE_INTEGER) {
+                    e.currentTarget.value = formatCurrency(value)
+                    return
+                  }
+                  onChange(e.currentTarget.value)
+                }}
+                onFocus={(e) => {
+                  animationBoxRef.current?.classList.add('active')
+                  const number = getNumberFromInputValue(e.currentTarget.value)
+                  if (number >= Number.MAX_SAFE_INTEGER) {
+                    const maxFormattedValue = findMaxValidValue(value)
+                    onChange(formatCurrency(maxFormattedValue.toFixed(2)))
+                  }
+                }}
+                onBlur={() => {
+                  animationBoxRef.current?.classList.remove('active')
+                  adjustInputWidth()
+                }}
+              />
+              <span
+                ref={spanRef}
+                style={{
+                  position: 'absolute',
+                  visibility: 'hidden',
+                  whiteSpace: 'pre',
+                  fontSize: 'inherit',
+                  fontFamily: 'inherit',
+                  padding: '0 2px',
+                  left: '0',
+                  top: '0',
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
   )
+}
+
+export function getNumberFromInputValue(value: string) {
+  return parseFloat(value.replace(/[^0-9.]/g, ''))
+}
+
+function findMaxValidValue(value: string) {
+  const number = getNumberFromInputValue(value)
+
+  if (number >= Number.MAX_SAFE_INTEGER) {
+    return findMaxValidValue((number / 10).toFixed(2))
+  }
+
+  return number
 }
