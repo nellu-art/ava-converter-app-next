@@ -62,6 +62,7 @@ export const CurrencyCard = ({
                   inputRef.current = input
                   maskInputRef(input)
                 }}
+                type="tel"
                 className="appearance-none bg-transparent border-none text-inherit py-1 px-2 leading-tight focus:outline-none input-expandable"
                 placeholder="0.00"
                 value={formatCurrency(value)}
