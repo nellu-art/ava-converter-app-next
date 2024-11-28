@@ -1,5 +1,6 @@
 require('dotenv').config({ path: '.env.local' })
 const fs = require('fs')
+const path = require('path')
 
 const SAVE_PATH = './src/constants/currencies.js'
 
@@ -34,6 +35,10 @@ const fetchFile = async () => {
 
 const writeContentToFile = (content) => {
   try {
+    const dir = path.dirname(SAVE_PATH)
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true })
+    }
     fs.writeFileSync(SAVE_PATH, content)
   } catch (error) {
     console.error('Failed to write file', error)
